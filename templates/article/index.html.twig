@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article index{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css"/>
+{% endblock %}
+
+{% block body %}
+
+    {% if is_granted ('ROLE_ADMIN') %}
+        <h1>Liste des articles </h1>
+        <table class="table table-hover" style="table-layout:fixed">
+            <tbody>
+            {% for article in articles %}
+                <tr class="table-active">
+                <th scope="row" >Article  </th>
+                    <td>{{ article.id }}</td>
+                    <td>{{ article.titre }}</td>
+                    <td style="width: 10%">{{ article.date ? article.date|date('Y-m-d') : '' }}</td>
+                    <td style="white-space: nowrap; overflow: hidden; width: 100px;" >{{ article.description | raw}}</td>
+                    <td><img src="{{ asset('thumbnail/' ~ article.thumbnail) }}" width="60%" alt="Charge pas"></td>
+                    <td>
+                        <nav>
+                            <ul>
+                                <li><a href="{{ path('article_show', {'id': article.id}) }}">Visioner</a></li>
+                                <li><a href="{{ path('article_edit', {'id': article.id}) }}">Modifier</a></li>
+                            </ul>
+                        </nav>
+                    </td>
+                </tr>
+
+            {% else %}
+                <tr class="table-active">
+                    <td colspan="6">Aucun article trouvé, crées en un !</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <nav>
+            <ul><li><a href="{{ path('article_new') }}">Ajouter un article</a></li></ul>
+        </nav>
+    {% else %}
+        <h1>Liste des articles </h1>
+        <table class="table table-hover" style="table-layout:fixed;">
+            <tbody>
+            {% for article in articles %}
+                <tr class="table-active">
+                    <th scope="row" >Article  </th>
+                    <td>{{ article.titre }}</td>
+                    <td style="width: 10%">{{ article.date ? article.date|date('Y-m-d') : '' }}</td>
+                    <td style="white-space: nowrap; overflow: hidden; width: 100px;" >{{ article.description | raw}}</td>
+                    <td><img src="{{ asset('thumbnail/' ~ article.thumbnail) }}" width="60%" alt="Charge pas"></td>
+                    <td>
+                        <nav>
+                            <ul>
+                                <li><a href="{{ path('article_show', {'id': article.id}) }}">Visioner</a></li>
+                            </ul>
+                        </nav>
+                    </td>
+                </tr>
+
+            {% else %}
+                <tr class="table-active">
+                    <td colspan="6">Aucun article posté actuellement</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

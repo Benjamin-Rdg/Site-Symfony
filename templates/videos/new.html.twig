@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Videos{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle videos</h1>
+
+    {{ include('videos/_form.html.twig') }}
+
+    <a href="{{ path('videos_index') }}">Retour</a>
+{% endblock %}

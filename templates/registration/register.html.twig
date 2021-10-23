@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css"/>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.speudo) }}
+
+    {{ form_row(registrationForm.email) }}
+
+    {{ form_row(registrationForm.plainPassword, {
+        label: 'Password'
+    }) }}
+    {{ form_row(registrationForm.agreeTerms) }}
+
+    <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Article{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css"/>
+{% endblock %}
+{% block body %}
+
+    <h1>Edit Article</h1>
+
+    {{ include('article/_form.html.twig', {'button_label': 'Mettre a jour'}) }}
+    <nav>
+        <li><a href="{{ path('article_index') }}">Retour</a></li>
+    </nav>
+
+    {{ include('article/_delete_form.html.twig') }}
+{% endblock %}

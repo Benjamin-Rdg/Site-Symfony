@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Videos index{% endblock %}
+
+{% block body %}
+
+    {% if is_granted ('ROLE_ADMIN') %}
+        <h1>Liste de videos </h1>
+        <table class="table table-hover" style="table-layout:fixed; ">
+            <tbody>
+            {% for video in videos %}
+                <tr class="table-active">
+                    <th scope="row" style="width: 15%">Video </th>
+                    <td style="width: 10%">{{ video.id }}</td>
+                    <td>{{ video.titre }}</td>
+                    <td style="white-space: nowrap; overflow: hidden; width: 100px">{{ video.description | raw}}</td>
+
+                    <td><iframe width="180px" height="90px" src="{{ video.videos | raw}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br></td>
+
+                    <td>
+                        <nav>
+                            <ul>
+                                <li style="width: 5%"><a href="{{ path('videos_show', {'id': video.id}) }}">Visioner</a></li>
+                                <li><a href="{{ path('videos_edit', {'id': video.id}) }}">Modifier</a></li>
+                            </ul>
+                        </nav>
+                    </td>
+                </tr>
+
+            {% else %}
+                <tr class="table-active">
+                    <td colspan="6">Aucune video trouvé, ajoute en une !</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <nav>
+            <ul><li><a href="{{ path('videos_new') }}">Ajouter une vidéo</a></li></ul>
+        </nav>
+    {% else %}
+        <h1>Liste de videos </h1>
+        <table class="table table-hover" style="table-layout:fixed; ">
+            <tbody>
+            {% for video in videos %}
+                <tr class="table-active">
+                    <th scope="row" style="width: 15%">Video </th>
+                    <td>{{ video.titre }}</td>
+                    <td style="white-space: nowrap; overflow: hidden; width: 100px">{{ video.description | raw}}</td>
+
+                    <td><iframe width="180px" height="90px" src="{{ video.videos | raw}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br></td>
+
+                    <td>
+                        <nav>
+                            <ul>
+                                <li><a href="{{ path('videos_show', {'id': video.id}) }}">Visioner</a></li>
+                            </ul>
+                        </nav>
+                    </td>
+                </tr>
+
+            {% else %}
+                <tr class="table-active">
+                    <td colspan="6">Aucune video trouvé, attendez un peu :)</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+{% endblock %}
