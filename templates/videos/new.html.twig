@@ -3,9 +3,9 @@
 {% block title %}New Videos{% endblock %}
 
 {% block body %}
-    <h1>Nouvelle videos</h1>
-
-    {{ include('videos/_form.html.twig') }}
-
-    <a href="{{ path('videos_index') }}">Retour</a>
+    {% if is_granted ('ROLE_ADMIN') %}
+        <h1>Nouvelle videos</h1>
+        {{ include('videos/_form.html.twig') }}
+        <a href="{{ path('videos_index') }}">Retour</a>
+    {% endif %}
 {% endblock %}

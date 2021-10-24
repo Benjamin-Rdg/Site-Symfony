@@ -3,11 +3,10 @@
 {% block title %}Edit Videos{% endblock %}
 
 {% block body %}
-    <h1>Modifier les Videos</h1>
-
-    {{ include('videos/_form.html.twig', {'button_label': 'Mettre a jour'}) }}
-
-    <a href="{{ path('videos_index') }}">Retour</a>
-
-    {{ include('videos/_delete_form.html.twig') }}
+    {% if is_granted ('ROLE_ADMIN') %}
+        <h1>Modifier les Videos</h1>
+        {{ include('videos/_form.html.twig', {'button_label': 'Mettre a jour'}) }}
+        <a href="{{ path('videos_index') }}">Retour</a>
+        {{ include('videos/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

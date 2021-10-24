@@ -3,7 +3,6 @@
 {% block title %}Videos{% endblock %}
 
 {% block body %}
-    {% if is_granted ('ROLE_ADMIN') %}
     <form>
         <h1>Videos</h1><br>
         <legend>{{ video.titre }}</legend><br>
@@ -13,24 +12,15 @@
         <nav>
             <ul>
                 <li><a href="{{ path('videos_index') }}">Retour</a></li>
-                <li><a href="{{ path('videos_edit', {'id': video.id}) }}">Modifier</a></li>
+                {% if is_granted ('ROLE_ADMIN') %}
+                    <li><a href="{{ path('videos_edit', {'id': video.id}) }}">Modifier</a></li>
+                {% endif %}
             </ul>
         </nav>
-        {{ include('videos/_delete_form.html.twig') }}
+        {% if is_granted ('ROLE_ADMIN') %}
+            {{ include('videos/_delete_form.html.twig') }}
+        {% endif %}
     </form>
-    {% else %}
-        <form>
-            <h1>Videos</h1><br>
-            <legend>{{ video.titre }}</legend><br>
-            <iframe width="520px" height="360px" src="{{ video.videos | raw}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br>
-            <label style="text-decoration: underline">Description : </label><br>
-            {{ video.description | raw }}<br>
-            <nav>
-                <ul>
-                    <li><a href="{{ path('videos_index') }}">Retour</a></li>
-                </ul>
-            </nav>
-        </form>
-    {% endif %}
+
 
 {% endblock %}
