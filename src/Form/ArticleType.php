@@ -3,12 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ArticleType extends AbstractType
 {
@@ -16,6 +18,10 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('titre')
+            ->add('tags',TextType::class,[
+                'required' => false,
+                'mapped' => false
+            ])
             ->add('date')
             ->add('description',CKEditorType::class)
             ->add('thumbnail', FileType::class, [

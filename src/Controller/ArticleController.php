@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\TagRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -29,7 +31,7 @@ class ArticleController extends AbstractController
 
     #[isGranted('ROLE_ADMIN')]
     #[Route('/news', name: 'article_new', methods: ['GET','POST'])]
-    public function new(Request $request, SluggerInterface $slugger): Response
+    public function new(Request $request, SluggerInterface $slugger,TagRepository $tagRespository): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -57,6 +59,20 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $tags = $form->get('tags')->getData();
+            $tags = explode(',', $tags);
+
+            foreach ($tags as $tag) {
+                $tag = trim($tag);
+                $entityTag = $tagRespository->findBy(['nom'=>$tag]);
+                if (!isset($entityTag[0])){
+                    $entityTag[0] = new Tag();
+                    $entityTag[0] ->setNom($tag);
+                    $entityManager->persist($entityTag[0]);
+                }
+                $article->addTag($entityTag[0]);
+            }
+
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -80,12 +96,26 @@ class ArticleController extends AbstractController
 
     #[isGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'article_edit', methods: ['GET','POST'])]
-    public function edit(Request $request, Article $article): Response
+    public function edit(Request $request, Article $article,TagRepository $tagRespository): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $tags = $form->get('tags')->getData();
+            $tags = explode(',', $tags);
+
+            foreach ($tags as $tag) {
+                $tag = trim($tag);
+                $entityTag = $tagRespository->findBy(['nom'=>$tag]);
+                if (!isset($entityTag[0])){
+                    $entityTag[0] = new Tag();
+                    $entityTag[0] ->setNom($tag);
+                    $entityManager->persist($entityTag[0]);
+                }
+                $article->addTag($entityTag[0]);
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);

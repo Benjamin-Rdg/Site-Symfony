@@ -11,6 +11,7 @@
         <h1>Article</h1>
         <legend>{{ article.titre }}</legend>
         <label>Ecrit le :  {{ article.date ? article.date|date('Y-m-d') : '' }}</label><br>
+
         <img src="{{ asset('thumbnail/' ~ article.thumbnail) }}" width="30%" alt="Charge pas"><br>
         <label style="text-decoration: underline">Description : </label><br>
         {{ article.description | raw }}<br><br>
