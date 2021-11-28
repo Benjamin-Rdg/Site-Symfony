@@ -6,7 +6,7 @@
     <form>
         <h1>Videos</h1><br>
         <legend>{{ video.titre }}</legend><br>
-        <iframe width="520px" height="360px" src="{{ video.videos | raw}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br>
+        <iframe width="520px" height="360px" src="{{ video.videos | raw}}" title="YouTube video player"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br>
         <label style="text-decoration: underline">Description : </label><br>
         {{ video.description | raw }}<br><br>
         <nav>

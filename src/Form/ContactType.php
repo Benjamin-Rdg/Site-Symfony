@@ -15,9 +15,7 @@ class ContactType extends AbstractType
         $builder
             ->add('mail')
             ->add('objet')
-            ->add('message',CKEditorType::class )
-
-        ;
+            ->add('message',CKEditorType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
